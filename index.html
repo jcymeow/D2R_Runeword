@@ -7,20 +7,21 @@
     <title>暗黑破坏神符文之语查询</title>
     <link href="css/style.css" rel="stylesheet">
 
+    <script src="excel/charstats.js"></script>
     <script src="excel/gems.js"></script>
     <script src="excel/itemstatcost.js"></script>
     <script src="excel/misc.js"></script>
+    <script src="excel/monstats.js"></script>
+    <script src="excel/playerclass.js"></script>
     <script src="excel/properties.js"></script>
     <script src="excel/runes.js"></script>
     <script src="excel/skilldesc.js"></script>
     <script src="excel/skills.js"></script>
-    <script src="excel/charstats.js"></script>
-    <script src="excel/monstats.js"></script>
 
     <script src="strings/item-modifiers.js"></script>
     <script src="strings/item-runes.js"></script>
-    <script src="strings/skills.js"></script>
     <script src="strings/monsters.js"></script>
+    <script src="strings/skills.js"></script>
 
     <script src="js/jcy.js"></script>
     <script src="js/my_runeword.js"></script>
@@ -35,11 +36,16 @@
         let skillMap = {};
         let skilldescMap = {}
         let gemMap = {};
+        let playclassMap = {};
+        let charstatMap = {};
         const LOCAL_MAP = {};
 
         window.onload = function () {
             //charstats.js remove Expansion
             EXCEL_CHARSTATS.splice(5, 1);
+
+            //playerclass.js remove Expansion
+            EXCEL_PLAYERCLASS.splice(5, 1);
 
             document.getElementById('searchInput').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
@@ -81,7 +87,6 @@
                         });
 
                         init();
-
                         filter();
                     }
                 });
@@ -129,6 +134,16 @@
             for (const item of EXCEL_ITEMSTATCOST) {
                 let obj = JSON.parse(JSON.stringify(item));
                 itemstatcostMap[obj.Stat] = obj;
+            }
+            
+            //playerclass 
+            for (const item of EXCEL_PLAYERCLASS) {
+                playclassMap[item.Code] = item["Player Class"];
+            }
+
+            //charstats
+            for(const charstat of EXCEL_CHARSTATS){
+                charstatMap[charstat.class] = charstat;
             }
 
             //MY_ITEMSTATCOST
@@ -543,9 +558,9 @@
                         const charIndex = parseInt(PARAM / 3);
                         const skillTabSerial = PARAM % 3 + 1;
                         const charstat = EXCEL_CHARSTATS[charIndex];
-                        const Key = charstat[`StrSkillTab${skillTabSerial}`];
-                        const Only = charstat["StrClassOnly"];
-                        local = LOCAL_MAP[Key][LNG] + "<span class='only-span'>" + LOCAL_MAP[Only][LNG] + "</span>";
+                        const key = charstat[`StrSkillTab${skillTabSerial}`];
+                        const only = charstat["StrClassOnly"];
+                        local = LOCAL_MAP[key][LNG] + "<span class='only-span'>" + LOCAL_MAP[only][LNG] + "</span>";
                         local = local.replace("%+d", MIN < MAX ? ["+", "<span class='range-span'>", MIN, "-", MAX, "</span>"].join("") : ["+", MIN].join(""));
                         break;
                     }
@@ -579,12 +594,6 @@
                         }
                         break;
                     }
-                    case 22: {
-                        local = local.replace("%+d", "+" + MIN)
-                            .replace("%s", ["<span class='skill-span'>", LOCAL_MAP[skilldescMap[skillMap[`${PARAM}`].skilldesc][`str name`]][LNG], "</span>"].join(""))
-                            .replace("%s", LOCAL_MAP[skillMap[`${PARAM}`].charclass.toClassCase() + "Only"][LNG]);
-                        break;
-                    }
                     case 23: {//Faith reanimate
                         local = local.replace("%0", MIN < MAX ? ["<span class='range-span'>", MIN, "-", MAX, "</span>"].join("") : MIN)
                             .replace("%1", LOCAL_MAP[EXCEL_MONSTATS[PARAM].NameStr][LNG]);
@@ -597,9 +606,18 @@
                         break;
                     }
                     case 27: {
+                        const skill = skillMap[PARAM];
+                        const skilldesc = skilldescMap[skill.skilldesc];
+                        const strName = skilldesc[`str name`];
+
+                        const playerclass = playclassMap[skill.charclass];
+                        const playstat = charstatMap[playerclass];
+                        const only = playstat.StrClassOnly;
+
                         local = local.replace("%+d", ["+", MIN].join(""))
-                            .replace("%s", ["<span class='skill-span'>", LOCAL_MAP[skilldescMap[skillMap[`${PARAM}`].skilldesc][`str name`]][LNG], "</span>"].join(""))
-                            .replace("%s", LOCAL_MAP[[skillMap[`${PARAM}`].charclass.toClassCase(), "Only"].join("")][LNG]);
+                            .replace("%s", ["<span class='skill-span'>", LOCAL_MAP[strName][LNG], "</span>"].join(""))
+                            .replace("%s", ["<span class='only-span'>", LOCAL_MAP[only][LNG], "</span>"].join(""));
+                            
                         break;
                     }
                     case 28: {
