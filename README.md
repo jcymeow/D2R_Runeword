@@ -7,6 +7,10 @@ Diablo II: Resurrected Runeword Query HTML Project
 适合平时用PC的朋友
 
 === 版本 ===
+2025/5/26 发布0.9.4版
+	全面支持 I18N
+	保存用户的语言偏好
+
 2025/5/25 发布0.9.3版
 	修改主页名称 index.html
 	提交到github
