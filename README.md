@@ -7,6 +7,11 @@ Diablo II: Resurrected Runeword Query HTML Project
 适合平时用PC的朋友
 
 === 版本 ===
+2025/5/25 发布0.9.3版
+	修改主页名称 index.html
+	提交到github
+	仓库地址 https://github.com/jcymeow/D2R_Runeword
+	Pages地址 https://jcymeow.github.io/D2R_Runeword/
 
 2025/5/25 发布0.9.2版
 	修正 金币/魔法掉落(依角色等级)显示问题        
