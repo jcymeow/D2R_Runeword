@@ -29,25 +29,25 @@ const UNIQUE_ITEMSTATCOST = [
 ];
 
 const EQUIPMENT = {
-    "weap": { "type": null, "name": "武器", "parent": null },
-    "mele": { "type": null, "name": "近戰武器", "parent": "weap" },
-    "helm": { "type": EQUIPMENT_TYPE.HELM, "name": "頭盔", "parent": null },
-    "tors": { "type": EQUIPMENT_TYPE.HELM, "name": "護甲", "parent": null },
-    "shld": { "type": EQUIPMENT_TYPE.SHIELD, "name": "盾牌", "parent": null },
-    "pala": { "type": EQUIPMENT_TYPE.SHIELD, "name": "聖騎盾", "parent": "shld" },
-    "miss": { "type": EQUIPMENT_TYPE.WEAPON, "name": "弓/弩/亚马逊弓", "parent": "weap" },
-    "swor": { "type": EQUIPMENT_TYPE.WEAPON, "name": "刀劍", "parent": "mele" },
-    "knif": { "type": EQUIPMENT_TYPE.WEAPON, "name": "匕首", "parent": "mele" },
-    "mace": { "type": EQUIPMENT_TYPE.WEAPON, "name": "釘錘", "parent": "mele" },
-    "hamm": { "type": EQUIPMENT_TYPE.WEAPON, "name": "重錘", "parent": "mele" },
-    "axe": { "type": EQUIPMENT_TYPE.WEAPON, "name": "斧", "parent": "mele" },
-    "club": { "type": EQUIPMENT_TYPE.WEAPON, "name": "短棒", "parent": "mele" },
-    "pole": { "type": EQUIPMENT_TYPE.WEAPON, "name": "長柄武器", "parent": "mele" },
-    "spea": { "type": EQUIPMENT_TYPE.WEAPON, "name": "長矛/亚马逊长矛", "parent": "mele" },
-    "h2h": { "type": EQUIPMENT_TYPE.WEAPON, "name": "爪/拳刃", "parent": "mele" },
-    "scep": { "type": EQUIPMENT_TYPE.WEAPON, "name": "權杖", "parent": "mele" },
-    "wand": { "type": EQUIPMENT_TYPE.WEAPON, "name": "魔杖", "parent": "mele" },
-    "staf": { "type": EQUIPMENT_TYPE.WEAPON, "name": "法杖", "parent": "mele" },
+    "weap": { "type": null, "name": { "zhCN": "武器", "zhTW": "武器", "enUS": "Weapon" }, "parent": null },
+    "mele": { "type": null, "name": { "zhCN": "近战武器", "zhTW": "近戰武器", "enUS": "Melee Weapon" }, "parent": "weap" },
+    "helm": { "type": EQUIPMENT_TYPE.HELM, "name": { "zhCN": "头盔", "zhTW": "頭盔", "enUS": "Helm" }, "parent": null },
+    "tors": { "type": EQUIPMENT_TYPE.HELM, "name": { "zhCN": "护甲", "zhTW": "護甲", "enUS": "Armor" }, "parent": null },
+    "shld": { "type": EQUIPMENT_TYPE.SHIELD, "name": { "zhCN": "盾牌", "zhTW": "盾牌", "enUS": "Shield" }, "parent": null },
+    "pala": { "type": EQUIPMENT_TYPE.SHIELD, "name": { "zhCN": "圣骑专用盾", "zhTW": "聖騎盾", "enUS": "Paladin Shield" }, "parent": "shld" },
+    "miss": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "远程武器", "zhTW": "弓/弩/亚马逊弓", "enUS": "Missile Weapons" }, "parent": "weap" },
+    "swor": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "剑类", "zhTW": "刀劍", "enUS": "Swords" }, "parent": "mele" },
+    "knif": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "匕首", "zhTW": "匕首", "enUS": "Daggers" }, "parent": "mele" },
+    "mace": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "钉锤", "zhTW": "釘錘", "enUS": "Maces" }, "parent": "mele" },
+    "hamm": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "战锤", "zhTW": "重錘", "enUS": "Hammers" }, "parent": "mele" },
+    "axe": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "斧头", "zhTW": "斧", "enUS": "Axes" }, "parent": "mele" },
+    "club": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "短棒", "zhTW": "短棒", "enUS": "Clubs" }, "parent": "mele" },
+    "pole": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "长柄武器", "zhTW": "長柄武器", "enUS": "Polearms" }, "parent": "mele" },
+    "spea": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "标枪/亚马逊标枪", "zhTW": "長矛/亚马逊长矛", "enUS": "Spears / Amazon Javelins" }, "parent": "mele" },
+    "h2h": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "爪类/拳刃", "zhTW": "爪/拳刃", "enUS": "Claws / Katar" }, "parent": "mele" },
+    "scep": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "权杖", "zhTW": "權杖", "enUS": "Scepters" }, "parent": "mele" },
+    "wand": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "魔杖", "zhTW": "魔杖", "enUS": "Wands" }, "parent": "mele" },
+    "staf": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "法杖", "zhTW": "法杖", "enUS": "Staves" }, "parent": "mele" }
 }
 
 //properties.js 补档
@@ -343,3 +343,219 @@ const RANGE_GROUP = [
         out: { "Stat": "magicdamage", "*ID": "6A637910", "descstrpos": "strModMagicDamageRange", "descstrneg": "strModMagicDamageRange", "descfunc": 0xF3 } 
     },
 ];
+
+const PLACEHODERS = [
+    {
+        "id" : "searchInput",
+        "zhCN": "请输入符文之语名称",
+        "zhTW": "請輸入符文之語名稱",
+        "enUS": "Please enter runeword name"
+    },
+];
+
+const COMPONENTS = [
+    {
+        "id": "title",
+        "zhCN": "暗黑破坏神 II：重制版 符文之語查詢頁",
+        "zhTW": "暗黑破壞神 II：獄火重生 符文之语查询页",
+        "enUS": "Diablo II: Resurrected Runeword Browser"
+    },
+    {
+        "id": "header",
+        "zhCN": "符文之语_v2.8",
+        "zhTW": "符文之語_v2.8",
+        "enUS": "Runeword_v2.8"
+    },
+    {
+        "id": "resetBtn",
+        "zhCN": "重置条件",
+        "zhTW": "重置條件",
+        "enUS": "Reset Conditions"
+    },
+    {
+        "id": "squipmentSlot",
+        "zhCN": "装备部位",
+        "zhTW": "裝備部位",
+        "enUS": "Equipment Slot"
+    },
+    {
+        "id": "socketCount",
+        "zhCN": "凹槽数量",
+        "zhTW": "凹槽數量",
+        "enUS": "Socket Count"
+    },
+];
+
+const RADIOS = [
+    {
+        "zhCN": "头盔",
+        "zhTW": "頭盔",
+        "enUS": "Helmet"
+    },
+    {
+        "zhCN": "护甲",
+        "zhTW": "護甲",
+        "enUS": "Armor"
+    },
+    {
+        "zhCN": "盾牌",
+        "zhTW": "盾牌",
+        "enUS": "Shield"
+    },
+    {
+        "zhCN": "圣骑盾",
+        "zhTW": "聖騎盾",
+        "enUS": "Paladin Shield"
+    },
+    {
+        "zhCN": "武器",
+        "zhTW": "武器",
+        "enUS": "Weapon"
+    },
+    {
+        "zhCN": "近战武器",
+        "zhTW": "近戰武器",
+        "enUS": "Melee Weapon"
+    },
+    {
+        "zhCN": "匕首",
+        "zhTW": "匕首",
+        "enUS": "Dagger"
+    },
+    {
+        "zhCN": "刀剑",
+        "zhTW": "刀劍",
+        "enUS": "Sword"
+    },
+    {
+        "zhCN": "斧",
+        "zhTW": "斧",
+        "enUS": "Axe"
+    },
+    {
+        "zhCN": "短棒",
+        "zhTW": "短棒",
+        "enUS": "Short Club"
+    },
+    {
+        "zhCN": "钉锤",
+        "zhTW": "釘錘",
+        "enUS": "Spiked Mace"
+    },
+    {
+        "zhCN": "重锤",
+        "zhTW": "重錘",
+        "enUS": "War Hammer"
+    },
+    {
+        "zhCN": "长柄武器",
+        "zhTW": "長柄武器",
+        "enUS": "Polearm"
+    },
+    {
+        "zhCN": "长矛",
+        "zhTW": "長矛",
+        "enUS": "Spear"
+    },
+    {
+        "zhCN": "权杖",
+        "zhTW": "權杖",
+        "enUS": "Scepter"
+    },
+    {
+        "zhCN": "短杖",
+        "zhTW": "短杖",
+        "enUS": "Short Staff"
+    },
+    {
+        "zhCN": "法杖",
+        "zhTW": "法杖",
+        "enUS": "Staff"
+    },
+    {
+        "zhCN": "爪/拳刃",
+        "zhTW": "爪/拳刃",
+        "enUS": "Claw / Blade"
+    },
+    {
+        "zhCN": "弓/弩",
+        "zhTW": "弓/弩",
+        "enUS": "Bow / Crossbow"
+    },
+    {
+        "zhCN": "2孔",
+        "zhTW": "2孔",
+        "enUS": "2 Sockets"
+    },
+    {
+        "zhCN": "3孔",
+        "zhTW": "3孔",
+        "enUS": "3 Sockets"
+    },
+    {
+        "zhCN": "4孔",
+        "zhTW": "4孔",
+        "enUS": "4 Sockets"
+    },
+    {
+        "zhCN": "5孔",
+        "zhTW": "5孔",
+        "enUS": "5 Sockets"
+    },
+    {
+        "zhCN": "6孔",
+        "zhTW": "6孔",
+        "enUS": "6 Sockets"
+    }
+];
+const LOGIC = {
+    "COUNT_PREFIX" : {
+        "zhCN": "当前展示",
+        "zhTW": "當前展示",
+        "enUS": "Showing"
+    },
+    "COUNT_SUFFIX" : {
+        "zhCN": "条数据",
+        "zhTW": "條數據",
+        "enUS": "results"
+    },
+    "SOCKETS" : {
+        "zhCN": "凹槽",
+        "zhTW": "凹槽",
+        "enUS": "Sockets"
+    },
+    "REQUIRED_LEVEL" : {
+        "zhCN": "最低需求等级: ",
+        "zhTW": "最低需求等級: ",
+        "enUS": "required level: "
+    },
+    "WEAPON" : {
+        "zhCN": "武器",
+        "zhTW": "武器",
+        "enUS": "Weapon"
+    },
+    "HELM" : {
+        "zhCN": "护甲",
+        "zhTW": "護甲",
+        "enUS": "Armor"
+    },
+    "SHIELD" : {
+        "zhCN": "盾牌",
+        "zhTW": "盾牌",
+        "enUS": "Shield"
+    },
+    "SECONDS" : {
+        "zhCN": "秒",
+        "zhTW": "秒",
+        "enUS": "seconds"
+    }
+};
+
+function saveLNG(value){
+  LNG = value;
+  saveData("LNG", value);
+}
+
+function loadLNG(){
+  LNG = loadData("LNG") || LNG;
+}

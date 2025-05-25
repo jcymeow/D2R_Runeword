@@ -41,3 +41,12 @@ function normalizeSkillName(name) {
 function clone(object){
   return JSON.parse(JSON.stringify(object));
 }
+
+function saveData(key, value) {
+  localStorage.setItem(key, value);
+}
+
+// 读取数据
+function loadData(key) {
+  return localStorage.getItem(key) || '';
+}

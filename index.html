@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>暗黑破坏神符文之语查询</title>
+    <title id="title"></title>
     <link href="css/style.css" rel="stylesheet">
 
     <script src="excel/charstats.js"></script>
@@ -41,6 +41,8 @@
         const LOCAL_MAP = {};
 
         window.onload = function () {
+            loadLNG();
+
             //charstats.js remove Expansion
             EXCEL_CHARSTATS.splice(5, 1);
 
@@ -80,7 +82,7 @@
                 button.addEventListener('click', function () {
                     const selectedLang = this.getAttribute('data-lang');
                     if (selectedLang !== LNG) {
-                        LNG = selectedLang;
+                        saveLNG(selectedLang);
 
                         langButtons.forEach(button => {
                             button.classList.toggle('active', button.getAttribute('data-lang') === LNG);
@@ -90,6 +92,7 @@
                         filter();
                     }
                 });
+                button.classList.toggle('active', button.getAttribute('data-lang') === LNG);
             });
 
             init();
@@ -97,6 +100,20 @@
         }
 
         function init() {
+
+            /** I18n **/
+            PLACEHODERS.forEach(item => {
+                document.getElementById(item.id).placeholder = item[LNG];
+            });
+            COMPONENTS.forEach(item => {
+                document.getElementById(item.id).innerHTML = item[LNG];
+            });
+            const radios = document.querySelectorAll('#searchForm input[type="radio"]');
+            const labels = document.querySelectorAll('#searchForm label');
+            labels.forEach((label, i) => {
+                label.innerText = RADIOS[i][LNG];
+                label.prepend(radios[i]); // 重新把 radio 放回 label 前面
+            });
 
             for (const item of STRINGS_ITEM_MODIFIERS) {
                 LOCAL_MAP[item.Key] = item
@@ -217,7 +234,7 @@
             for (let runeword of runewords) {
                 //名称(显示/查询)
                 const local = LOCAL_MAP[runeword.Name];
-                runeword.viewName = [local.enUS.toUpperCase(), local.zhTW, local.zhCN].join(" ");
+                runeword.viewName = [local.enUS.toUpperCase(), local.zhCN, local.zhTW].join(" ");
 
                 //可选装备类型
                 runeword.itypes = [];
@@ -225,9 +242,8 @@
                 let i = 1;
                 while (runeword[`itype${i}`]) {
                     const it = runeword[`itype${i}`];
-                    const equipment = EQUIPMENT[it];
                     runeword.itypes.push(it);
-                    runeword.vtypes.push(equipment.name);
+                    runeword.vtypes.push(EQUIPMENT[it].name[LNG]);
                     if (["helm", "tors"].includes(it)) {
                         runeword.ishelm = true;
                     }
@@ -439,7 +455,7 @@
             //count
             const countDiv = document.createElement('div');
             countDiv.className = 'styled-box';
-            countDiv.append("当前展示" + array.length + "条数据");
+            countDiv.append([LOGIC.COUNT_PREFIX[LNG], array.length, LOGIC.COUNT_SUFFIX[LNG]].join(" "));
             result.appendChild(countDiv);
 
 
@@ -465,8 +481,8 @@
                 //require
                 const requireDiv = document.createElement('div');
                 requireDiv.className = 'require-box';
-                requireDiv.innerHTML += "<div>" + runeword.sockets + " 凹槽 " + runeword.vtypes.join('/') + "</div>";
-                requireDiv.innerHTML += "<div>最低需求等级: " + runeword.levelreq + "</div>";
+                requireDiv.innerHTML += "<div>" + [runeword.sockets, LOGIC.SOCKETS[LNG], runeword.vtypes.join('/')].join(" ") + "</div>";
+                requireDiv.innerHTML += `<div>${LOGIC.REQUIRED_LEVEL[LNG]}` + runeword.levelreq + `</div>`;
 
                 //properties
                 const descDiv = document.createElement('div');
@@ -495,16 +511,8 @@
             let propDiv = document.createElement('div');
             propDiv.className = 'prop-box';
 
-            switch (equipType) {
-                case EQUIPMENT_TYPE.WEAPON:
-                    propDiv.innerHTML = ["<div class='form-row'>", "武器", "</div>"].join("");
-                    break;
-                case EQUIPMENT_TYPE.HELM:
-                    propDiv.innerHTML = ["<div class='form-row'>", "防具", "</div>"].join("");
-                    break;
-                case EQUIPMENT_TYPE.SHIELD:
-                    propDiv.innerHTML = ["<div class='form-row'>", "盾牌", "</div>"].join("");
-                    break;
+            for(const key in EQUIPMENT_TYPE){
+                propDiv.innerHTML = ["<div class='form-row'>", LOGIC[key][LNG], "</div>"].join("");
             }
 
             for (const desc of runeword[equipType]) {
@@ -656,7 +664,7 @@
                         for (let index = 0; index < array.length; index++) {
                             let line = array[index];
                             if (index === array.length - 1) {
-                                line = line.replace("%s", skill.auralencalc / FRAMES + "秒");
+                                line = line.replace("%s", [skill.auralencalc / FRAMES + LOGIC.SECONDS[LNG]].join(" "));
                             } else {
                                 const descline = skilldesc[`descline${index}`];
                                 if (descline) {
@@ -692,33 +700,30 @@
             return propDiv;
         }
 
-
-
-
     </script>
 </head>
 
 <body>
     <div class="search-box">
         <div class="title-row">
-            <h2 style="color: #2c3e50; margin-bottom: 25px;">符文之语_v2.8</h2>
+            <h2 id="header" style="color: #2c3e50; margin-bottom: 25px;"></h2>
             <div class="language-selector">
                 <button class="lang-btn" data-lang="enUS">EN</button>
                 <button class="lang-btn" data-lang="zhCN">简</button>
-                <button class="lang-btn active" data-lang="zhTW">繁</button>
+                <button class="lang-btn" data-lang="zhTW">繁</button>
             </div>
         </div>
 
         <form id="searchForm">
             <!-- 关键词搜索 -->
             <div class="form-row">
-                <input type="text" id="searchInput" placeholder="请输入符文之语名称">
+                <input type="text" id="searchInput" placeholder="">
                 <button type="button" id="resetBtn" class="search-btn">重置条件</button>
             </div>
 
             <!-- 装备部位 -->
             <div class="form-row">
-                <div class="form-title">装备部位</div>
+                <div id="squipmentSlot" class="form-title">装备部位</div>
                 <div class="radio-group">
                     <label class="radio-item"><input type="radio" name="type" value="helm"> 头盔</label>
                     <label class="radio-item"><input type="radio" name="type" value="tors"> 护甲</label>
@@ -746,7 +751,7 @@
 
             <!-- 凹槽数量 -->
             <div class="form-row">
-                <div class="form-title">凹槽数量</div>
+                <div id="socketCount" class="form-title">凹槽数量</div>
                 <div class="radio-group">
                     <label class="radio-item"><input type="radio" name="sockets" value="2"> 2孔</label>
                     <label class="radio-item"><input type="radio" name="sockets" value="3"> 3孔</label>
