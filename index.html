@@ -244,15 +244,7 @@
                     const it = runeword[`itype${i}`];
                     runeword.itypes.push(it);
                     runeword.vtypes.push(EQUIPMENT[it].name[LNG]);
-                    if (["helm", "tors"].includes(it)) {
-                        runeword.ishelm = true;
-                    }
-                    if (["shld", "pala"].includes(it)) {
-                        runeword.isshield = true;
-                    }
-                    if (["miss", "weap", "mele", "swor", "knif", "mace", "hamm", "axe", "club", "pole", "spea", "spea", "h2h", "scep", "wand", "staf"].includes(it)) {
-                        runeword.isweapon = true;
-                    }
+                    runeword[`is${EQUIPMENT[it].type}`] = true;
                     i++;
                 }
 
@@ -396,8 +388,25 @@
                         return -1;
                     });
                 }
-            }
 
+            }
+            
+            const mySet = new Set();
+            for(const runeword of runewords){
+                for(const key in EQUIPMENT_TYPE){
+                    const type = EQUIPMENT_TYPE[key];
+                    const itemstatcosts = runeword[type];
+                    if(!itemstatcosts)continue;
+                    for(const ii of itemstatcosts){
+                        mySet.add(ii.descfunc);
+                    }
+                }
+            }
+            
+
+            console.log("============================================");
+            console.log(mySet);
+            console.log("============================================");
             //符文之语列表排序 需求等级 ASC
             runewords.sort((a, b) => a.levelreq - b.levelreq);
 
@@ -510,10 +519,7 @@
         function local(equipType, runeword) {
             let propDiv = document.createElement('div');
             propDiv.className = 'prop-box';
-
-            for(const key in EQUIPMENT_TYPE){
-                propDiv.innerHTML = ["<div class='form-row'>", LOGIC[key][LNG], "</div>"].join("");
-            }
+            propDiv.innerHTML = ["<div class='form-row'>", LOGIC[equipType.toUpperCase()][LNG], "</div>"].join("");
 
             for (const desc of runeword[equipType]) {
                 const CODE = desc.prop.Code;
@@ -544,13 +550,13 @@
 
                 switch (descfunc) {
                     case 5: {
-                        local = local.replace("%+d", MIN * 100 / 128)
+                        // #14 Dor "%+d%% 機率擊中使怪物逃跑"
+                        local = local.replace("%+d", MIN * 100 / 128);
                         break;
                     }
                     case 11: {
-                        local = local.replace("%d", MIN)
-                            .replace("%d", MAX)
-                            .replace("%s", ["<span class='skill-span'>", LOCAL_MAP[skilldescMap[skillMap[`${PARAM}`].skilldesc][`str name`]][LNG], "</span>"].join(""));
+                        // "每秒修復 %d 耐久度"
+                        local = local.replace("%d", 100 / PARAM);
                         break;
                     }
                     case 12: {
@@ -664,7 +670,7 @@
                         for (let index = 0; index < array.length; index++) {
                             let line = array[index];
                             if (index === array.length - 1) {
-                                line = line.replace("%s", [skill.auralencalc / FRAMES + LOGIC.SECONDS[LNG]].join(" "));
+                                line = line.replace("%s", [skill.auralencalc / FRAMES, LOGIC.SECONDS[LNG]].join(" "));
                             } else {
                                 const descline = skilldesc[`descline${index}`];
                                 if (descline) {

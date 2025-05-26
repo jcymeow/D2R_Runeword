@@ -29,8 +29,8 @@ const UNIQUE_ITEMSTATCOST = [
 ];
 
 const EQUIPMENT = {
-    "weap": { "type": null, "name": { "zhCN": "武器", "zhTW": "武器", "enUS": "Weapon" }, "parent": null },
-    "mele": { "type": null, "name": { "zhCN": "近战武器", "zhTW": "近戰武器", "enUS": "Melee Weapon" }, "parent": "weap" },
+    "weap": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "武器", "zhTW": "武器", "enUS": "Weapon" }, "parent": null },
+    "mele": { "type": EQUIPMENT_TYPE.WEAPON, "name": { "zhCN": "近战武器", "zhTW": "近戰武器", "enUS": "Melee Weapon" }, "parent": "weap" },
     "helm": { "type": EQUIPMENT_TYPE.HELM, "name": { "zhCN": "头盔", "zhTW": "頭盔", "enUS": "Helm" }, "parent": null },
     "tors": { "type": EQUIPMENT_TYPE.HELM, "name": { "zhCN": "护甲", "zhTW": "護甲", "enUS": "Armor" }, "parent": null },
     "shld": { "type": EQUIPMENT_TYPE.SHIELD, "name": { "zhCN": "盾牌", "zhTW": "盾牌", "enUS": "Shield" }, "parent": null },
@@ -508,6 +508,7 @@ const RADIOS = [
         "enUS": "6 Sockets"
     }
 ];
+
 const LOGIC = {
     "COUNT_PREFIX" : {
         "zhCN": "当前展示",
@@ -547,7 +548,7 @@ const LOGIC = {
     "SECONDS" : {
         "zhCN": "秒",
         "zhTW": "秒",
-        "enUS": "seconds"
+        "enUS": "sec."
     }
 };
 
